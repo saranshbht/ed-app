@@ -1,4 +1,4 @@
-# lalimber
+# ed-app
 
 ## Project setup
 ```
