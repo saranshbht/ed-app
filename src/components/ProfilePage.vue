@@ -50,10 +50,12 @@
 					</v-text-field>
                 </v-card-text>
                 <v-card-actions>
-                    <v-btn color="primary" :loading="loading" @click.native="update">
+                    <router-link to = "/">
+                        <v-btn color="primary" :loading="loading" @click.native="update">
                         <v-icon left dark>mdi-check</v-icon>
                         Save Changes
                     </v-btn>
+                    </router-link>
                 </v-card-actions>
             </v-card>
         </v-layout>

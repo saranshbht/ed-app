@@ -65,7 +65,9 @@
 			</v-container>
 			<v-footer class="justify-center my-6">
 				Already have an account?{{'\xa0'}}
-				<strong><a href="">Sign in</a></strong>
+				<strong>
+					<router-link to="/signin">Sign in</router-link>
+				</strong>
 			</v-footer>
 		</v-flex>
 	</v-container>

@@ -42,7 +42,9 @@
 			</v-container>
 			<v-footer class="justify-center my-6">
 				Don't have an account yet?{{'\xa0'}}
-				<strong><a href="">Sign up</a></strong>
+				<strong>
+					<router-link to="/signup">Sign up</router-link>
+				</strong>
 			</v-footer>
 		</v-flex>
 	</v-container>
