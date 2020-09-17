@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <router-view></router-view>
     <!-- <v-app-bar
       app
       color="primary"
@@ -44,7 +45,7 @@
       <!-- <SignIn /> -->
       <!-- <Home /> -->
       <!-- <SignUpForm /> -->
-      <SearchPage />
+      <!-- <SearchPage /> -->
     </v-main>
   </v-app>
 </template>
@@ -56,7 +57,7 @@
 // import SignIn from './components/SignIn';
 // import Home from './components/Home';
 // import SignUpForm from './components/SignUpForm';
-import SearchPage from './components/SearchPage';
+// import SearchPage from './components/SearchPage';
 export default {
   name: 'App',
 
@@ -67,7 +68,7 @@ export default {
     // SignIn,
     // Home,
     // SignUpForm,
-    SearchPage
+    // SearchPage
   },
 
   data: () => ({
