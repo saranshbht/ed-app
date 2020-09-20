@@ -4,7 +4,8 @@
       fill-height
       tile
     >
-      <v-app-bar
+      <v-form action="/search">
+        <v-app-bar
         color="primary"
         dark
       >
@@ -25,6 +26,7 @@
         >
         </v-text-field>
       </v-app-bar>
+      </v-form>
 
       <v-navigation-drawer
         v-model="drawer"
@@ -55,6 +57,7 @@
             :key="item.title"
             link
           >
+
             <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-icon>
@@ -74,7 +77,9 @@
             column>
             <v-chip>c++</v-chip>
             <v-chip>python</v-chip>
-            <v-chip>javascript</v-chip>
+            <router-link to = "/search">
+              <v-chip>javascript</v-chip>
+            </router-link>
             <v-chip>machine learning</v-chip>
             <v-chip>data mining</v-chip>
             <v-chip>economics</v-chip>
