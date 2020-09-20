@@ -9,20 +9,23 @@
 					<v-card-title class="font-weight-black text-h4 justify-center">
 						Register
 					</v-card-title>
-					<v-form>
+					<v-form @submit.prevent="onSignUp">
 						<v-text-field
 							prepend-inner-icon="mdi-account"
 							name="Name"
 							label="Full Name"
+							v-model="name"
 							required>
 						</v-text-field>
 						<v-text-field
 							prepend-inner-icon="mdi-email"
 							name="Email"
+							v-model="email"
 							label="Email">
 						</v-text-field>
 						<v-text-field
 							prepend-inner-icon="mdi-lock"
+							v-model="password"
 							name="Password"
 							label="Password"
 							type="password">
@@ -39,7 +42,7 @@
 								value="Female">
 							</v-radio>
 						</v-radio-group>
-						<v-checkbox v-model="terms">
+						<v-checkbox>
 							<template v-slot:label>
 								<div>
 									I agree to the <a href="">Terms and Conditions</a>
@@ -47,7 +50,7 @@
 							</template>
 						</v-checkbox>
 						<v-card-actions>
-							<v-btn color="primary" large block>Sign Up</v-btn>
+							<v-btn type="submit" color="primary" large block>Sign Up</v-btn>
 						</v-card-actions>
 					</v-form>
 
@@ -72,3 +75,36 @@
 		</v-flex>
 	</v-container>
 </template>
+
+
+<script>
+export default {
+	computed: {
+		user() {
+			return this.$store.getters.user
+		}
+	},
+	watch: {
+		user(value) {
+			if (value !== null && value !== undefined)
+				this.$router.push('/')
+		}
+	},
+	data() {
+		return {
+			name: '',
+			email: '',
+			password: ''
+		}
+	},
+	methods: {
+		onSignUp() {
+			this.$store.dispatch('signUserUp', {
+				name: this.name,
+				email: this.email,
+				password: this.password
+			})
+		}
+	}
+}
+</script>

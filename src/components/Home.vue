@@ -9,7 +9,7 @@
         color="primary"
         dark
       >
-        <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+        <!-- <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon> -->
         <!-- <v-toolbar-title>Home</v-toolbar-title> -->
         <!-- <v-spacer></v-spacer>
         <v-btn text icon>
@@ -28,7 +28,8 @@
       </v-app-bar>
       </v-form>
 
-      <v-navigation-drawer
+      <!-- <v-navigation-drawer
+        temporary
         v-model="drawer"
         :color="primary"
         app
@@ -67,7 +68,7 @@
             </v-list-item-content>
           </v-list-item>
         </v-list>
-      </v-navigation-drawer>
+      </v-navigation-drawer> -->
 
       <v-card>
         <v-card-title>Featured Topics</v-card-title>

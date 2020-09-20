@@ -1,5 +1,8 @@
 <template>
   <v-app>
+    
+      <NavigationDrawer />
+    
     <router-view></router-view>
     <!-- <v-app-bar
       app
@@ -58,10 +61,12 @@
 // import Home from './components/Home';
 // import SignUpForm from './components/SignUpForm';
 // import SearchPage from './components/SearchPage';
+import NavigationDrawer from './components/NavigationDrawer.vue'
 export default {
   name: 'App',
 
   components: {
+    NavigationDrawer
     // HelloWorld,
     // CourseHome,
     // ProfilePage,
