@@ -1,5 +1,5 @@
 <template>
-	<v-container class="px-0 py-0" fluid>
+	<v-container v-if="!loading" class="px-0 py-0" fluid>
 		<v-card fill-height tile class="mx-0">
 			<v-app-bar color="primary" dark>
 				<v-text-field
@@ -14,7 +14,7 @@
 			</v-app-bar>
 				<v-navigation-drawer
 					v-model="drawer"
-					:color="primary"
+					temporary
 					app>
 					<v-list>
 						<v-list-item-group multiple>
@@ -25,7 +25,7 @@
 								v-for="(item, i) in topics"
 								:key="i">
 								<v-list-item-action>
-									<v-checkbox></v-checkbox>
+									<v-checkbox @click="applyFilter('topic', item)"></v-checkbox>
 								</v-list-item-action>
 								<v-list-item-title>
 									{{ item }}
@@ -45,7 +45,7 @@
 								v-for="(item, i) in levels"
 								:key="i">
 								<v-list-item-action>
-									<v-checkbox></v-checkbox>
+									<v-checkbox @click="applyFilter('level', item)"></v-checkbox>
 								</v-list-item-action>
 								<v-list-item-title>
 									{{ item }}
@@ -65,7 +65,7 @@
 								v-for="(item, i) in languages"
 								:key="i">
 								<v-list-item-action>
-									<v-checkbox></v-checkbox>
+									<v-checkbox @click="applyFilter('language', item)"></v-checkbox>
 								</v-list-item-action>
 								<v-list-item-title>
 									{{ item }}
@@ -108,35 +108,37 @@
 					</v-select>
 				</v-col>
 			</v-row>
-			<v-card>
+			<v-card
+				v-for="course in courses"
+				:key = "course.id"
+			>
 				<v-row align="center">
 					<v-col class="col-4">
 						<v-img
-							src="https://source.unsplash.com/klMii3cR9iI"
+							:src="course.imageUrl"
 							height="200"
 							cover>
 						</v-img>
 					</v-col>
 					<v-col class="col-8 px-0">
-						<v-card-title>Introduction to Javascript</v-card-title>
+						<v-card-title>{{course.title}}</v-card-title>
 						<v-card-text>
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua.
+							{{course.description}}
 						<v-rating
-							:value="4.5"
+							:value="course.rating"
 							color="amber"
 							dense
 							half-increments
 							readonly
 							size="14">
 						</v-rating>
-						4.5 (4130) | 12K students enrolled
+						{{course.rating}} ({{course.raters}}) | {{course.students}} students enrolled
 						</v-card-text>
 					</v-col>
 				</v-row>
 			</v-card>
 
-			<v-card>
+			<!-- <v-card>
 				<v-row align="center">
 					<v-col class="col-4">
 						<v-img
@@ -162,7 +164,7 @@
 						</v-card-text>
 					</v-col>
 				</v-row>
-			</v-card>
+			</v-card> -->
 			</v-card-text>
 		</v-card>
 	</v-container>
@@ -171,15 +173,58 @@
 <script>
 
   export default {
+	computed: {
+		loading() {
+			return this.$store.getters.loading
+		},
+		courses() {
+			console.log('hello')
+			if (Object.keys(this.filteredCourses).length !== 0) {
+				return this.filteredCourses
+			}
+			return this.allCourses
+		},
+		allCourses() {
+			return this.$store.getters.courses
+		}
+	},
     data: () => ({
+		filteredCourses: {},
       sort_items: ['Top Rated', 'Newest Added', 'Duration', 'Students Enrolled'],
-      selection: [],
+      filters: {},
       topics: ['C++', 'Python', 'Machine Learning'],
       languages: ['English','Hindi', 'Spanish'],
       levels: ['Beginner', 'Intermediate', 'Expert'],
-      drawer: false
+      drawer: false,
       // value: ['foo', 'bar', 'fizz', 'buzz'],
-    }),
+	}),
+	
+	methods: {
+		applyFilter(filter, value) {
+			
+			this.filters[filter] = value
+		
+			// const filteredCourses = {}
+			for (let course in this.allCourses) {
+				let flag = true
+				
+				
+				for (let key in this.filters) {
+					if (this.allCourses[course][key] !== this.filters[key]) {
+						flag = false
+						break
+					}
+					console.log(flag)
+					if (flag) {
+						console.log('updated')
+						this.filteredCourses[course] = this.allCourses[course][key]
+					}
+				}
+			}
+			// this.courses = filteredCourses
+		
+		}
+	}
   }
 </script>
 <style scoped>

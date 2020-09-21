@@ -12,9 +12,16 @@
 					<v-form @submit.prevent="onSignUp">
 						<v-text-field
 							prepend-inner-icon="mdi-account"
-							name="Name"
-							label="Full Name"
-							v-model="name"
+							name="firestName"
+							label="First Name"
+							v-model="firstName"
+							required>
+						</v-text-field>
+						<v-text-field
+							prepend-inner-icon="mdi-account"
+							name="lastName"
+							label="Last Name"
+							v-model="lastName"
 							required>
 						</v-text-field>
 						<v-text-field
@@ -30,15 +37,17 @@
 							label="Password"
 							type="password">
 						</v-text-field>
-						<v-radio-group row>
+						<v-radio-group row v-model="gender">
 							<v-radio
 								on-icon="mdi-gender-male"
 								label="Male"
+								
 								value="Male">
 							</v-radio>
 							<v-radio
 								on-icon="mdi-gender-female"
 								label="Female"
+								
 								value="Female">
 							</v-radio>
 						</v-radio-group>
@@ -92,7 +101,9 @@ export default {
 	},
 	data() {
 		return {
-			name: '',
+			firstName: '',
+			lastName: '',
+			gender: '',
 			email: '',
 			password: ''
 		}
@@ -100,7 +111,9 @@ export default {
 	methods: {
 		onSignUp() {
 			this.$store.dispatch('signUserUp', {
-				name: this.name,
+				firstName: this.firstName,
+				lastName: this.lastName,
+				gender: this.gender,
 				email: this.email,
 				password: this.password
 			})

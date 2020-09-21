@@ -14,15 +14,15 @@
           nav
           class="py-0"
         >
-          <v-list-item two-line>
-            <router-link to = "/profile">
+          <v-list-item v-if="userIsAuthenticated" two-line to = "/profile">
+            
               <v-list-item-avatar>
                 <img src="https://randomuser.me/api/portraits/men/81.jpg">
               </v-list-item-avatar>
-            </router-link>
+            
 
-            <v-list-item-content v-if="userIsAuthenticated">
-              <v-list-item-title>{{user.name}}</v-list-item-title>
+            <v-list-item-content >
+              <v-list-item-title>{{user.firstName}}</v-list-item-title>
               <v-list-item-subtitle>Logged In</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -141,6 +141,7 @@ export default {
       
       onLogout() {
         this.$store.dispatch('logout')
+        this.$router.push('/')
       }
     }
 }

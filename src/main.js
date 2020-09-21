@@ -66,5 +66,6 @@ new Vue({
         }
       }
     )
+    this.$store.dispatch('loadCourses')
   }
 }).$mount('#app')
