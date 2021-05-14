@@ -5,7 +5,7 @@
       {{ model }}
       <v-icon @click="model++">mdi-plus</v-icon>
     </v-row> -->
-    <v-carousel v-model="model" height="50vh">
+    <v-carousel height="50vh">
       <v-carousel-item
         v-for="(color, i) in colors"
         :key="color"

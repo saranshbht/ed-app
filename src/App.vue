@@ -1,5 +1,9 @@
 <template>
   <v-app>
+    
+      <NavigationDrawer />
+    
+    <router-view></router-view>
     <!-- <v-app-bar
       app
       color="primary"
@@ -44,7 +48,7 @@
       <!-- <SignIn /> -->
       <!-- <Home /> -->
       <!-- <SignUpForm /> -->
-      <SearchPage />
+      <!-- <SearchPage /> -->
     </v-main>
   </v-app>
 </template>
@@ -56,18 +60,20 @@
 // import SignIn from './components/SignIn';
 // import Home from './components/Home';
 // import SignUpForm from './components/SignUpForm';
-import SearchPage from './components/SearchPage';
+// import SearchPage from './components/SearchPage';
+import NavigationDrawer from './components/NavigationDrawer.vue'
 export default {
   name: 'App',
 
   components: {
+    NavigationDrawer
     // HelloWorld,
     // CourseHome,
     // ProfilePage,
     // SignIn,
     // Home,
     // SignUpForm,
-    SearchPage
+    // SearchPage
   },
 
   data: () => ({

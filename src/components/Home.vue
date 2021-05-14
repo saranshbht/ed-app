@@ -4,11 +4,12 @@
       fill-height
       tile
     >
-      <v-app-bar
+      <v-form action="/search">
+        <v-app-bar
         color="primary"
         dark
       >
-        <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+        <!-- <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon> -->
         <!-- <v-toolbar-title>Home</v-toolbar-title> -->
         <!-- <v-spacer></v-spacer>
         <v-btn text icon>
@@ -25,8 +26,10 @@
         >
         </v-text-field>
       </v-app-bar>
+      </v-form>
 
-      <v-navigation-drawer
+      <!-- <v-navigation-drawer
+        temporary
         v-model="drawer"
         :color="primary"
         app
@@ -36,9 +39,11 @@
           class="py-0"
         >
           <v-list-item two-line :class="miniVariant && 'px-0'">
-            <v-list-item-avatar>
-              <img src="https://randomuser.me/api/portraits/men/81.jpg">
-            </v-list-item-avatar>
+            <router-link to = "/profile">
+              <v-list-item-avatar>
+                <img src="https://randomuser.me/api/portraits/men/81.jpg">
+              </v-list-item-avatar>
+            </router-link>
 
             <v-list-item-content>
               <v-list-item-title>John Doe</v-list-item-title>
@@ -53,6 +58,7 @@
             :key="item.title"
             link
           >
+
             <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-icon>
@@ -62,7 +68,7 @@
             </v-list-item-content>
           </v-list-item>
         </v-list>
-      </v-navigation-drawer>
+      </v-navigation-drawer> -->
 
       <v-card>
         <v-card-title>Featured Topics</v-card-title>
@@ -72,7 +78,9 @@
             column>
             <v-chip>c++</v-chip>
             <v-chip>python</v-chip>
-            <v-chip>javascript</v-chip>
+            <router-link to = "/search">
+              <v-chip>javascript</v-chip>
+            </router-link>
             <v-chip>machine learning</v-chip>
             <v-chip>data mining</v-chip>
             <v-chip>economics</v-chip>

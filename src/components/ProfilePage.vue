@@ -1,6 +1,7 @@
 <template>
-    <v-container fluid>
-        <v-layout column>
+    
+    <v-container v-if="!loading" fluid>
+        <v-layout  column>
             <v-card fill-height>
                 <v-card-text>
                     <v-row justify="space-around" class="my-5">
@@ -32,7 +33,7 @@
 					</v-text-field>
                     <v-text-field
 						clearable
-                        v-model="form.contactEmail"
+                        v-model="form.email"
                         label="Email Address">
 					</v-text-field>
 					<v-text-field
@@ -50,10 +51,14 @@
 					</v-text-field>
                 </v-card-text>
                 <v-card-actions>
-                    <v-btn color="primary" :loading="loading" @click.native="update">
+                
+                        <v-btn color="primary" :loading="loading"
+                            :disabled="loading"
+                         @click="onSaveChanges">
                         <v-icon left dark>mdi-check</v-icon>
                         Save Changes
                     </v-btn>
+                
                 </v-card-actions>
             </v-card>
         </v-layout>
@@ -65,17 +70,28 @@
     export default {
         pageTitle: 'My Profile',
         // components: { AvatarPicker },
+        computed: {
+            loading() {
+                return this.$store.getters.loading
+            },
+            user() {
+                return this.$store.getters.user
+            },
+            form() {
+                return {
+                    firstName: this.user.firstName,
+                    lastName: this.user.lastName,
+                    email: this.user.email,
+                    mobile: this.user.mobile,
+                    about: this.user.about,
+                    password: this.user.password
+                }
+            }
+        },
         data () {
             return {
-                loading: false,
-                form: {
-                    firstName: 'John',
-                    lastName: 'Doe',
-                    contactEmail: 'john@doe.com',
-                    mobile: '1234567890',
-                    about: 'About me',
-                    password: 'something'
-                },
+                
+                
                 show: false
             }
         },
@@ -85,6 +101,19 @@
             },
             selectAvatar (avatar) {
                 this.form.avatar = avatar
+            },
+            onSaveChanges() {
+                if(this.form.firstName.trim() === '' ||
+                this.form.lastName.trim() === '' ||
+                this.form.email.trim() === '' ||
+                this.form.password.trim() === '')
+                return
+
+                this.$store.dispatch('updateUser', {
+                    id: this.user.id,
+                    ...this.form
+                })
+                this.$router.push('/')
             }
         }
     }

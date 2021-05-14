@@ -9,22 +9,24 @@
 					<v-card-title primary-title>
 						<h3>Welcome Back! &#x1F607;</h3>
 					</v-card-title>
-					<v-form>
+					<v-form @submit.prevent="onSignIn">
 						<v-text-field
 							outlined
 							prepend-inner-icon="mdi-email"
 							name="Email"
+							v-model="email"
 							label="Email">
 						</v-text-field>
 						<v-text-field
 							outlined
 							prepend-inner-icon="mdi-lock"
+							v-model="password"
 							name="Password"
 							label="Password"
 							type="password">
 						</v-text-field>
 						<v-card-actions>
-							<v-btn color="primary" large block>Login</v-btn>
+							<v-btn type="submit" color="primary" large block>Login</v-btn>
 						</v-card-actions>
 					</v-form>
 					<a href="">Forgot Password?</a>
@@ -42,8 +44,40 @@
 			</v-container>
 			<v-footer class="justify-center my-6">
 				Don't have an account yet?{{'\xa0'}}
-				<strong><a href="">Sign up</a></strong>
+				<strong>
+					<router-link to="/signup">Sign up</router-link>
+				</strong>
 			</v-footer>
 		</v-flex>
 	</v-container>
 </template>
+
+<script>
+export default {
+	computed: {
+		user() {
+			return this.$store.getters.user
+		}
+	},
+	watch: {
+		user(value) {
+			if (value !== null && value !== undefined)
+				this.$router.push('/')
+		}
+	},
+	data() {
+		return {
+			email: '',
+			password: ''
+		}
+	},
+	methods: {
+		onSignIn() {
+			this.$store.dispatch('signUserIn', {
+				email: this.email,
+				password: this.password
+			})
+		}
+	}
+}
+</script>
