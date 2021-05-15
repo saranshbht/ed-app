@@ -98,7 +98,9 @@ export default {
       if (!userData.subscribedCourses) {
         userData.subscribedCourses = [];
       }
-      console.log(this.isSubscribed);
+      // console.log(this.isSubscribed);
+
+      // remove course if already subscribed, otherwise add to user's subscribed courses
       if (this.isSubscribed) {
         userData.subscribedCourses = (this.user.subscribedCourses || []).filter(
           (id) => id !== this.course.id

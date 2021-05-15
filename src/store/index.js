@@ -36,12 +36,13 @@ export default new Vuex.Store({
         .once("value")
         .then((data) => {
           let courses = data.val();
+          // store courses in state as an array of course objects
           let courses_array = [];
           for (let course in courses) {
             courses_array.push(courses[course]);
           }
           commit("setCourses", courses_array);
-          console.log(courses_array);
+          // console.log(courses_array);
           //   commit("setLoading", false);
         })
         .catch((error) => {
@@ -51,7 +52,7 @@ export default new Vuex.Store({
     },
 
     updateUser({ commit }, { userData, message = "" }) {
-      console.log(userData);
+      // console.log(userData);
       commit("setLoading", true);
       commit("setError", null);
       firebase
@@ -59,7 +60,7 @@ export default new Vuex.Store({
         .ref("/users/" + userData.id)
         .update(userData)
         .then(() => {
-          console.log("update successful");
+          // console.log("update successful");
           commit("setUser", userData);
           commit("setError", { message: message });
           commit("setLoading", false);
@@ -67,7 +68,7 @@ export default new Vuex.Store({
         .catch((error) => {
           commit("setError", error);
           commit("setLoading", false);
-          console.log(error);
+          // console.log(error);
         });
     },
 
@@ -84,7 +85,7 @@ export default new Vuex.Store({
             lastName: payload.lastName,
             gender: payload.gender,
           };
-          console.log(newUser);
+          // console.log(newUser);
           commit("setUser", newUser);
           firebase
             .database()
@@ -92,16 +93,16 @@ export default new Vuex.Store({
             .update(newUser)
             .then(() => {
               commit("setLoading", false);
-              console.log("successful");
+              // console.log("successful");
             })
             .catch((error) => {
-              console.log(error);
+              // console.log(error);
               commit("setError", error);
               commit("setLoading", false);
             });
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
           commit("setError", error);
           commit("setLoading", false);
         });
@@ -121,11 +122,11 @@ export default new Vuex.Store({
             .then((data) => {
               commit("setUser", data.val());
               commit("setLoading", false);
-              console.log(data.val());
+              // console.log(data.val());
             });
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
           commit("setError", error);
           commit("setLoading", false);
         });
@@ -139,11 +140,11 @@ export default new Vuex.Store({
         .once("value")
         .then((data) => {
           commit("setUser", data.val());
-          console.log(payload.uid);
+          // console.log(payload.uid);
         })
         .catch((error) => {
           console.log(error);
-          console.log("error");
+          // console.log("error");
         });
     },
 
@@ -154,12 +155,12 @@ export default new Vuex.Store({
         .auth()
         .signOut()
         .then(() => {
-          console.log("logout");
+          // console.log("logout");
           commit("setUser", null);
           commit("setLoading", false);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
           commit("setError", error);
           commit("setLoading", false);
         });

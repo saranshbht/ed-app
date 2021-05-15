@@ -199,6 +199,7 @@ export default {
       }
 
       // console.log(filters);
+      // filter courses based on filters applied by user
       this.filteredCourses = cloneDeep(this.allCourses);
       for (let filter in filters) {
         this.filteredCourses = this.filteredCourses.filter(
@@ -209,7 +210,7 @@ export default {
     },
     onSearch() {
       if (this.$route.query.q !== this.search) {
-        console.log("searched:", this.search);
+        // console.log("searched:", this.search);
         this.$router.push({ query: { q: this.search } });
       }
     },
@@ -218,6 +219,7 @@ export default {
     this.search = this.$route.query.q || "";
     while (!this.allCourses) await new Promise((r) => setTimeout(r, 50));
     this.filteredCourses = cloneDeep(this.allCourses);
+    // filter courses based on query/search string
     this.filteredCourses = this.filteredCourses.filter(
       (obj) =>
         (obj["title"] || "")

@@ -97,7 +97,7 @@ export default {
   computed: {
     ...mapGetters(["user", "loading", "error"]),
     userData() {
-      console.log(this.user);
+      // console.log(this.user);
       return cloneDeep(this.user);
     },
   },
