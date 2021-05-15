@@ -1,166 +1,189 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import * as firebase from 'firebase'
+import Vue from "vue";
+import Vuex from "vuex";
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/database";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
-export const store = new Vuex.Store({
-    state: {
-        user: null,
-        error: null,
-        loading: true,
-        courses: null
+export default new Vuex.Store({
+  state: {
+    user: null,
+    error: null,
+    loading: false,
+    courses: null,
+  },
+  mutations: {
+    setUser(state, payload) {
+      state.user = payload;
     },
-    mutations: {
-        setUser(state, payload) {
-            state.user = payload
-        },
-        setError(state, payload) {
-            state.error = payload
-        },
-        setLoading(state, payload) {
-            state.loading = payload
-        },
-        loadCourses(state, payload) {
-            state.courses = payload
-        }
-        
+    setError(state, payload) {
+      state.error = payload;
     },
-    actions: {
-        loadCourses({commit}) {
-            commit('setLoading', true)
-            firebase.database().ref('courses').once('value')
-            .then(
-                data => {
-                    commit('loadCourses', data.val())
-                    console.log(data.val())
-                    commit('setLoading', false)
-                }
-            )
-            .catch(
-                error=> {
-                    commit('setLoading', false)
-                    console.log(error)
-                }
-            )
-        },
-        updateUser({commit}, payload) {
-
-            firebase.database().ref('users/' + payload.id).update(payload)
-            .then(
-                () => {
-                    console.log('update successful')
-                    commit('setUser', payload)
-                }
-            )
-        },
-        signUserUp({commit}, payload) {
-            
-            firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
-            .then(
-                user => {
-                    const newUser = {
-                        id: user.user.uid,
-                        firstName: payload.firstName,
-                        lastName: payload.lastName,
-                        email: payload.email,
-                        password: payload.password,
-                        gender: payload.gender,
-                        mobile: '',
-                        about: 'About me'
-                    }
-                    firebase.database().ref('users/' + newUser.id).set(newUser)
-                    .then(
-                        () => {
-                            console.log('successful')
-                        }
-                    )
-                    .catch(
-                        error => {
-                            console.log(error)
-                        }
-                    )
-                   commit('setUser', newUser) 
-                }
-            )
-            .catch(
-                error => {
-                    commit('setError', error)
-                }
-            )
-
-           
-
-        },
-
-        signUserIn({commit}, payload) {
-            commit('setLoading', true)
-            firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
-            .then(
-                (user) => {
-                    firebase.database().ref('users/' + user.user.uid).once('value').
-                    then(
-                        data => {
-                            
-                            commit('setUser', data.val())
-                            commit('setLoading', false)
-                            console.log(data.val())
-                        }
-                    )
-                }
-            )
-            .catch(
-                error=> {
-                    console.log(error)
-                    commit('setError', error)
-                }
-            )
-
-            
-        },
-        autoSignIn({commit}, payload) {
-            commit('setLoading', true)
-            firebase.database().ref('users/' + payload.uid).once('value').
-            then(
-                data => {
-                    
-                    commit('setUser', data.val())
-                    commit('setLoading', false)
-                }
-            )
-            .catch(
-                error=> {
-                    console.log(error)
-                }
-            )
-        },
-        logout({commit}) {
-            firebase.auth().signOut()
-            .then(
-                () =>{
-                    console.log('logout')
-                }
-            )
-            .catch(
-                error=> {
-                    console.log(error)
-                }
-            )
-            commit('setUser', null)
-        }
+    setLoading(state, payload) {
+      state.loading = payload;
     },
-    getters: {
-        error(state) {
-            return state.error
-        },
-        user(state) {
-            return state.user
-        },
-        loading(state) {
-            return state.loading
-        },
-        courses(state) {
-            return state.courses
-        }
-    }
-})
+    setCourses(state, payload) {
+      state.courses = payload;
+    },
+  },
+  actions: {
+    loadCourses({ commit }) {
+      //   commit("setLoading", true);
+      firebase
+        .database()
+        .ref("courses")
+        .once("value")
+        .then((data) => {
+          let courses = data.val();
+          let courses_array = [];
+          for (let course in courses) {
+            courses_array.push(courses[course]);
+          }
+          commit("setCourses", courses_array);
+          console.log(courses_array);
+          //   commit("setLoading", false);
+        })
+        .catch((error) => {
+          //   commit("setLoading", false);
+          console.log(error);
+        });
+    },
+
+    updateUser({ commit }, { userData, message = "" }) {
+      console.log(userData);
+      commit("setLoading", true);
+      commit("setError", null);
+      firebase
+        .database()
+        .ref("/users/" + userData.id)
+        .update(userData)
+        .then(() => {
+          console.log("update successful");
+          commit("setUser", userData);
+          commit("setError", { message: message });
+          commit("setLoading", false);
+        })
+        .catch((error) => {
+          commit("setError", error);
+          commit("setLoading", false);
+          console.log(error);
+        });
+    },
+
+    signUserUp({ commit }, payload) {
+      commit("setLoading", true);
+      commit("setError", null);
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(payload.email, payload.password)
+        .then((user) => {
+          const newUser = {
+            id: user.user.uid,
+            firstName: payload.firstName,
+            lastName: payload.lastName,
+            gender: payload.gender,
+          };
+          console.log(newUser);
+          commit("setUser", newUser);
+          firebase
+            .database()
+            .ref("/users/" + newUser.id)
+            .update(newUser)
+            .then(() => {
+              commit("setLoading", false);
+              console.log("successful");
+            })
+            .catch((error) => {
+              console.log(error);
+              commit("setError", error);
+              commit("setLoading", false);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+          commit("setError", error);
+          commit("setLoading", false);
+        });
+    },
+
+    signUserIn({ commit }, payload) {
+      commit("setLoading", true);
+      commit("setError", null);
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(payload.email, payload.password)
+        .then((user) => {
+          firebase
+            .database()
+            .ref("users/" + user.user.uid)
+            .once("value")
+            .then((data) => {
+              commit("setUser", data.val());
+              commit("setLoading", false);
+              console.log(data.val());
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+          commit("setError", error);
+          commit("setLoading", false);
+        });
+    },
+
+    autoSignIn({ commit }, payload) {
+      commit("setUser", { id: payload.id });
+      firebase
+        .database()
+        .ref("users/" + payload.uid)
+        .once("value")
+        .then((data) => {
+          commit("setUser", data.val());
+          console.log(payload.uid);
+        })
+        .catch((error) => {
+          console.log(error);
+          console.log("error");
+        });
+    },
+
+    logout({ commit }) {
+      commit("setLoading", true);
+      commit("setError", null);
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          console.log("logout");
+          commit("setUser", null);
+          commit("setLoading", false);
+        })
+        .catch((error) => {
+          console.log(error);
+          commit("setError", error);
+          commit("setLoading", false);
+        });
+    },
+
+    clearError({ commit }) {
+      commit("setError", null);
+    },
+  },
+  getters: {
+    error(state) {
+      return state.error;
+    },
+    user(state) {
+      return state.user;
+    },
+    loading(state) {
+      return state.loading;
+    },
+    courses(state) {
+      return state.courses;
+    },
+    isAuthenticated(state) {
+      return state.user !== null && state.user != undefined;
+    },
+  },
+});

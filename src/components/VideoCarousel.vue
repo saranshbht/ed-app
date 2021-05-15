@@ -1,46 +1,52 @@
 <template>
-  <div>
-    <!-- <v-row justify="space-around">
-      <v-icon @click="model--">mdi-minus</v-icon>
-      {{ model }}
-      <v-icon @click="model++">mdi-plus</v-icon>
-    </v-row> -->
-    <v-carousel height="50vh">
-      <v-carousel-item
-        v-for="(color, i) in colors"
-        :key="color"
-      >
-        <v-sheet
-          :color="color"
-          height="100%"
-          tile
-        >
-          <v-row
-            class="fill-height"
-            align="center"
-            justify="center"
-          >
-            <div class="display-3">Video {{ i + 1 }}</div>
+  <v-row class="justify-center">
+    <v-col xs="12" sm="6">
+      <v-carousel>
+        <v-carousel-item v-for="(item, i) in items" :key="item.id">
+          <v-row class="fill-height no-gutters" align="center" justify="center">
+            <v-img v-if="item.src" :src="item.src" height="100%" width="100%">
+              <template v-slot:placeholder> <Loading /> </template
+            ></v-img>
+            <div
+              v-else-if="item.content"
+              class="video-element"
+              v-html="item.content"
+            ></div>
+            <v-sheet
+              v-else
+              :color="colors[i]"
+              height="100%"
+              width="100%"
+              class="d-flex align-center justify-center"
+              tile
+            >
+              <div class="text-h2 text-center" v-html="item.text"></div>
+            </v-sheet>
           </v-row>
-        </v-sheet>
-      </v-carousel-item>
-    </v-carousel>
-  </div>
+        </v-carousel-item>
+      </v-carousel>
+    </v-col>
+  </v-row>
 </template>
 
-
 <script>
-  export default {
-    data () {
-      return {
-        colors: [
-          'primary',
-          'secondary',
-          'yellow darken-2',
-          'red',
-          'orange',
-        ]
-      }
-    },
-  }
+import Loading from "@/components/Loading";
+export default {
+  components: {
+    Loading,
+  },
+  props: ["items"],
+  data() {
+    return {
+      colors: ["secondary", "yellow darken-2", "red", "orange", "primary"],
+    };
+  },
+};
 </script>
+
+<style scoped>
+.video-element {
+  height: 100%;
+  width: 100%;
+}
+</style>
