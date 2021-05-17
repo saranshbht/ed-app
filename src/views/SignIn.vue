@@ -1,7 +1,7 @@
 <template>
   <v-container fill-height fluid>
-    <v-row v-if="error">
-      <v-col sm="6" offset-sm="3">
+    <v-row v-if="error" justify="center">
+      <v-col sm="6">
         <app-alert
           @close-alert="onDismissed"
           :text="error.message"
