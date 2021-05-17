@@ -1,10 +1,5 @@
 <template>
-  <v-alert
-    :type="type"
-    dismissible
-    @input="onClose"
-    :value="text.length && true"
-  >
+  <v-alert :type="type" dismissible @input="onClose" :value="text.length > 0">
     {{ text }}
   </v-alert>
 </template>

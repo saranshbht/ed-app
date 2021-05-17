@@ -10,8 +10,8 @@
       </v-col>
     </v-row>
 
-    <v-row>
-      <v-col sm="6" offset-sm="3">
+    <v-row justify="center">
+      <v-col cols="10" sm="6" md="4">
         <v-card flat>
           <v-card-title class="font-weight-black text-h4 justify-center">
             Register
@@ -164,6 +164,9 @@ export default {
       // console.log('Dismissed alert');
       this.clearError();
     },
+  },
+  created() {
+    this.clearError();
   },
 };
 </script>

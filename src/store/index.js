@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
+// import router from "../router";
 
 Vue.use(Vuex);
 
@@ -45,14 +46,13 @@ export default new Vuex.Store({
           // console.log(courses_array);
           //   commit("setLoading", false);
         })
-        .catch((error) => {
+        .catch(() => {
           //   commit("setLoading", false);
-          console.log(error);
+          // console.log(error);
         });
     },
 
     updateUser({ commit }, { userData, message = "" }) {
-      // console.log(userData);
       commit("setLoading", true);
       commit("setError", null);
       firebase
@@ -117,7 +117,7 @@ export default new Vuex.Store({
         .then((user) => {
           firebase
             .database()
-            .ref("users/" + user.user.uid)
+            .ref("/users/" + user.user.uid)
             .once("value")
             .then((data) => {
               commit("setUser", data.val());
@@ -133,17 +133,17 @@ export default new Vuex.Store({
     },
 
     autoSignIn({ commit }, payload) {
-      commit("setUser", { id: payload.id });
+      // commit("setUser", { id: payload.id });
       firebase
         .database()
-        .ref("users/" + payload.uid)
+        .ref("/users/" + payload.uid)
         .once("value")
         .then((data) => {
           commit("setUser", data.val());
           // console.log(payload.uid);
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          // console.log(error);
           // console.log("error");
         });
     },
@@ -155,9 +155,9 @@ export default new Vuex.Store({
         .auth()
         .signOut()
         .then(() => {
-          // console.log("logout");
           commit("setUser", null);
           commit("setLoading", false);
+          // router.push({ name: "Home" }).catch(() => router.go());
         })
         .catch((error) => {
           // console.log(error);

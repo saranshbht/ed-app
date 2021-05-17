@@ -1,9 +1,9 @@
 <template>
   <v-row class="justify-center">
-    <v-col xs="12" sm="6">
-      <v-carousel>
+    <v-col cols="12">
+      <v-carousel hide-delimiters show-arrows-on-hover>
         <v-carousel-item v-for="(item, i) in items" :key="item.id">
-          <v-row class="fill-height no-gutters" align="center" justify="center">
+          <v-row class="fill-height" no-gutters align="center" justify="center">
             <v-img v-if="item.src" :src="item.src" height="100%" width="100%">
               <template v-slot:placeholder> <Loading /> </template
             ></v-img>

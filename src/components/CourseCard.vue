@@ -1,20 +1,19 @@
 <template>
-  <v-card flat>
+  <v-card flat class="pa-2">
     <v-row justify="center" no-gutters>
-      <v-col class="col-4" align-self="center">
+      <v-col cols="4">
         <router-link :to="'/course/' + course.id">
-          <v-img :src="course.imageUrl" max-height="400" cover>
-            <template v-slot:placeholder> <Loading /> </template
-          ></v-img>
+          <img
+            :src="imageUrl"
+            height="400"
+            width="100%"
+            style="object-fit:contain;"
+          />
         </router-link>
       </v-col>
 
-      <v-col class="col-8 px-0">
-        <v-card
-          height="100%"
-          class="d-flex flex-column justify-space-around"
-          flat
-        >
+      <v-col cols="8">
+        <v-card height="100%" class="d-flex flex-column justify-center" flat>
           <v-card-title>{{ course.title }}</v-card-title>
           <v-card-text>
             <div>
@@ -40,21 +39,17 @@
             </div>
           </v-card-text>
 
-          <div>
-            <v-card-actions
-              ><v-btn
-                v-if="isAuthenticated"
-                right
-                absolute
-                color="deep-purple lighten-2"
-                @click="onClick"
-              >
-                <v-icon large v-if="isSubscribed">mdi-bookmark-remove</v-icon>
-                <v-icon large v-else>mdi-bookmark-check</v-icon>
-                {{ isSubscribed ? "Unsubscribe" : "Subscribe" }}
-              </v-btn>
-            </v-card-actions>
-          </div>
+          <v-card-actions
+            ><v-btn
+              v-if="isAuthenticated"
+              color="deep-purple lighten-2"
+              @click="onClick"
+            >
+              <v-icon large v-if="isSubscribed">mdi-bookmark-remove</v-icon>
+              <v-icon large v-else>mdi-bookmark-check</v-icon>
+              {{ isSubscribed ? "Unsubscribe" : "Subscribe" }}
+            </v-btn>
+          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
@@ -62,13 +57,9 @@
 </template>
 
 <script>
-import Loading from "@/components/Loading";
 import { mapGetters } from "vuex";
 import { cloneDeep } from "lodash";
 export default {
-  components: {
-    Loading,
-  },
   props: ["course"],
   computed: {
     ...mapGetters(["user", "isAuthenticated"]),
@@ -76,6 +67,9 @@ export default {
       return (this.user.subscribedCourses || []).some(
         (id) => id === this.course.id
       );
+    },
+    imageUrl() {
+      return this.course.imageUrl + "/200x300";
     },
   },
   methods: {

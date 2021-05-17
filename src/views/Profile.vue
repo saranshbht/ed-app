@@ -1,7 +1,7 @@
 <template>
-  <v-container fluid>
-    <v-row v-if="error">
-      <v-col sm="6" offset-sm="3">
+  <v-container v-if="user" fluid>
+    <v-row v-if="error" justify="center">
+      <v-col sm="6">
         <app-alert
           @close-alert="onDismissed"
           :text="error.message"
@@ -9,8 +9,8 @@
         ></app-alert>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col sm="6" offset-sm="3">
+    <v-row justify="center">
+      <v-col sm="10" md="6" lg="4">
         <v-card fill-height flat>
           <v-card-text>
             <v-row justify="space-around" class="my-5">
@@ -112,6 +112,9 @@ export default {
     onDismissed() {
       this.clearError();
     },
+  },
+  created() {
+    this.clearError();
   },
 };
 </script>

@@ -38,13 +38,14 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   props: ["items"],
   computed: mapGetters(["user", "isAuthenticated"]),
   methods: {
+    ...mapActions(["logout"]),
     onSignout() {
-      this.$store.dispatch.logout();
+      this.logout();
     },
   },
 };

@@ -1,12 +1,10 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home";
-// import Item from "../views/Item";
 import SignIn from "../views/SignIn";
 import SignUp from "../views/SignUp";
 import Profile from "../views/Profile";
 import Search from "../views/Search";
-// import AuthGaurd from './auth_guard';
 import firebase from "firebase/app";
 import CourseHome from "../views/CourseHome";
 import SubscribedCourses from "../views/SubscribedCourses";
@@ -62,6 +60,12 @@ const routes = [
       requiresAuth: true,
     },
   },
+  {
+    path: "*",
+    name: "Invalid Path",
+    component: Home,
+    redirect: { name: "Home" },
+  },
 ];
 
 const router = new VueRouter({
@@ -71,11 +75,11 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  firebase.auth().onAuthStateChanged(function(user) {
+  firebase.auth().onAuthStateChanged((user) => {
     // redirect to signin if a page requiring auth is accessed without login
     if (to.matched.some((record) => record.meta.requiresAuth)) {
       if (!user) {
-        next({ path: "/signin" });
+        next({ name: "SignIn" });
       } else {
         next();
       }
@@ -83,7 +87,7 @@ router.beforeEach((to, from, next) => {
     // redirect to home (/) if user attempts to access /signin, /signup after logging in
     else if (to.matched.some((record) => record.meta.requiresVisitor)) {
       if (user) {
-        next({ path: "/" });
+        next({ name: "Home" });
       } else {
         next();
       }

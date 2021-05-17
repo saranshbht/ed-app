@@ -1,7 +1,7 @@
 <template>
   <v-container fluid fill-height>
-    <v-row
-      ><v-col xs="12" md="6" offset-md="3">
+    <v-row justify="center"
+      ><v-col xs="12" md="10" lg="8">
         <v-card :loading="loading" class="mx-auto my-5" flat>
           <v-img max-height="500" :src="course.imageUrl"
             ><template v-slot:placeholder> <Loading /> </template
@@ -74,16 +74,10 @@ export default {
     $route: "this.course",
   },
   computed: {
-    ...mapGetters(["user", "isAuthenticated"]),
-    allCourses() {
-      return this.$store.getters.courses;
-    },
-    loading() {
-      return this.$store.getters.loading;
-    },
+    ...mapGetters(["user", "isAuthenticated", "courses", "loading"]),
     course() {
       return (
-        (this.allCourses || []).filter((obj) => obj["id"] == this.id)[0] || {}
+        (this.courses || []).filter((obj) => obj["id"] == this.id)[0] || {}
       );
     },
     isSubscribed() {

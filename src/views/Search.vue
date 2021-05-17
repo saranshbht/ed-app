@@ -1,5 +1,5 @@
 <template>
-  <v-container v-if="!loading" class="px-0 py-0" fluid>
+  <v-container class="px-0 py-0" fluid>
     <v-card fill-height flat tile class="mx-0">
       <v-card-title class="primary lighten-1">
         <v-text-field
@@ -80,7 +80,7 @@
       </v-navigation-drawer>
 
       <v-card-text>
-        <div class="text-h4">Top Searches</div>
+        <div class="font-weight-bold text-h4">Top Searches</div>
         <v-chip-group column>
           <v-chip
             v-for="(term, i) in topSearches"
@@ -93,17 +93,16 @@
 
         <v-divider></v-divider>
 
-        <v-row>
-          <v-col align-self="center" cols="6">
-            <div class="text-center">
+        <v-row justify="space-around">
+          <v-col align-self="center" cols="3">
+            <div>
               <v-btn large primary @click="drawer = true">
                 <v-icon left>mdi-filter</v-icon>
                 Filter
               </v-btn>
             </div>
           </v-col>
-
-          <v-col>
+          <v-col align-self="center" cols="5">
             <v-select
               label="Sort By"
               prepend-icon="mdi-sort"
@@ -116,12 +115,11 @@
         <div v-if="!courses || !courses.length" class="text-center">
           No courses available
         </div>
-        <course-card
-          v-else
-          v-for="course in courses"
-          :key="course.id"
-          :course="course"
-        ></course-card>
+        <v-row v-else no-gutters justify="center">
+          <v-col cols="12" md="10" v-for="course in courses" :key="course.id"
+            ><course-card :course="course"></course-card>
+          </v-col>
+        </v-row>
       </v-card-text>
     </v-card>
   </v-container>
@@ -203,7 +201,7 @@ export default {
       this.filteredCourses = cloneDeep(this.allCourses);
       for (let filter in filters) {
         this.filteredCourses = this.filteredCourses.filter(
-          (obj) => obj[filter] == filters[filter]
+          (obj) => obj[filter].toLowerCase() == filters[filter].toLowerCase()
         );
       }
       // console.log(this.filteredCourses);
