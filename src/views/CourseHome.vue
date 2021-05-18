@@ -3,7 +3,11 @@
     <v-row justify="center"
       ><v-col xs="12" md="10" lg="8">
         <v-card :loading="loading" class="mx-auto my-5" flat>
-          <v-img max-height="500" :src="course.imageUrl"
+          <v-img
+            max-height="500"
+            width="100%"
+            :src="course.imageUrl"
+            gradient="to bottom, rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.5)"
             ><template v-slot:placeholder> <Loading /> </template
           ></v-img>
           <v-card-actions>
@@ -18,7 +22,9 @@
             </v-btn>
           </v-card-actions>
 
-          <v-card-title>{{ course.title }}</v-card-title>
+          <v-card-title class="font-weight-bold text-h4">{{
+            course.title
+          }}</v-card-title>
 
           <v-card-text>
             <v-row align="center" class="mx-0">
@@ -48,7 +54,7 @@
 
           <v-divider class="mx-4"></v-divider>
 
-          <v-card-title>Playlist</v-card-title>
+          <v-card-title class="font-weight-bold text-h4">Playlist</v-card-title>
 
           <v-card-text>
             <VideoCarousel :items="course.playlist" />

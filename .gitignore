@@ -5,6 +5,8 @@ node_modules
 .env
 .com*
 .deploy.sh
+script.py
+deploy
 
 # Log files
 npm-debug.log*
